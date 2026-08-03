@@ -92,19 +92,13 @@
     </div>
 
     <!-- Header / Brand Bar -->
-    <header class="w-full max-w-5xl flex justify-between items-center z-10 bg-black/30 backdrop-blur-md px-6 py-3 rounded-3xl border border-white/10">
-        <div class="flex items-center space-x-3">
+    <header class="w-full max-w-5xl flex justify-center items-center z-10 bg-black/30 backdrop-blur-md px-6 py-3 rounded-3xl border border-white/10">
+        <div class="flex items-center space-x-3 text-center">
             <i data-lucide="award" class="w-7 h-7 text-yellow-400"></i>
             <div class="flex flex-col leading-tight">
                 <span class="text-xs font-semibold tracking-widest uppercase opacity-80">Department of</span>
                 <span class="font-black text-base md:text-lg tracking-wider uppercase text-yellow-300">Humanities</span>
             </div>
-        </div>
-        <div class="flex items-center space-x-2">
-            <button id="open-input-btn" class="flex items-center space-x-1 text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition border border-white/20" title="Shortcut: Ctrl + L">
-                <i data-lucide="edit-3" class="w-4 h-4"></i>
-                <span class="hidden sm:inline">Manage List</span>
-            </button>
         </div>
     </header>
 
@@ -143,29 +137,7 @@
             </div>
         </div>
 
-        <!-- Progress Counter -->
-        <div class="mt-6 text-sm font-medium tracking-wide opacity-80 bg-black/20 px-4 py-1.5 rounded-full border border-white/10">
-            Student <span id="current-index">1</span> of <span id="total-count">1</span>
-        </div>
-
     </main>
-
-    <!-- Navigation Controls -->
-    <footer class="w-full max-w-md flex items-center justify-between z-10 gap-4 mb-2">
-        <button id="prev-btn" class="flex-1 flex items-center justify-center space-x-2 bg-black/40 hover:bg-black/60 active:scale-95 text-white py-3 px-6 rounded-2xl border border-white/10 backdrop-blur-md transition-all disabled:opacity-30 disabled:pointer-events-none">
-            <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            <span class="font-semibold">Previous</span>
-        </button>
-
-        <button id="reset-card-btn" title="Hide/Reset Card" class="bg-black/40 hover:bg-black/60 active:scale-95 text-white p-3 rounded-2xl border border-white/10 backdrop-blur-md transition-all">
-            <i data-lucide="rotate-ccw" class="w-6 h-6"></i>
-        </button>
-
-        <button id="next-btn" class="flex-1 flex items-center justify-center space-x-2 bg-black/40 hover:bg-black/60 active:scale-95 text-white py-3 px-6 rounded-2xl border border-white/10 backdrop-blur-md transition-all disabled:opacity-30 disabled:pointer-events-none">
-            <span class="font-semibold">Next</span>
-            <i data-lucide="chevron-right" class="w-6 h-6"></i>
-        </button>
-    </footer>
 
     <!-- Input Modal for Customizing Student List -->
     <div id="input-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
@@ -199,11 +171,10 @@
     <script>
         // Default list of students with assigned houses
         let students = [
-            { name: "Ahmed Ali", house: "Tipu" },
-            { name: "Muhammad Usman", house: "Jinnah" },
-            { name: "Hamza Tariq", house: "Sir Syed" },
-            { name: "Zaid Omar", house: "Iqbal" },
-            { name: "Bilal Hassan", house: "Tipu" }
+            { name: "Ali Khan", house: "Tipu" },
+            { name: "Usman Ahmed", house: "Jinnah" },
+            { name: "Bilal Hussain", house: "Sir Syed" },
+            { name: "Hamza Raza", house: "Iqbal" }
         ];
 
         let currentIndex = 0;
@@ -222,13 +193,7 @@
         const cardInner = document.getElementById('card-inner');
         const studentNameElem = document.getElementById('student-name');
         const houseBadgeElem = document.getElementById('house-badge');
-        const currentIndexElem = document.getElementById('current-index');
-        const totalCountElem = document.getElementById('total-count');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const resetCardBtn = document.getElementById('reset-card-btn');
         const inputModal = document.getElementById('input-modal');
-        const openInputBtn = document.getElementById('open-input-btn');
         const closeModalBtn = document.getElementById('close-modal-btn');
         const saveListBtn = document.getElementById('save-list-btn');
         const studentListInput = document.getElementById('student-list-input');
@@ -271,40 +236,12 @@
             // Update text contents
             studentNameElem.textContent = current.name;
             houseBadgeElem.textContent = houseConfig.name;
-
-            // Update counters
-            currentIndexElem.textContent = currentIndex + 1;
-            totalCountElem.textContent = students.length;
-
-            // Update button states
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === students.length - 1;
         }
 
         // Card Flip Event
         cardContainer.addEventListener('click', () => {
             isFlipped = !isFlipped;
             cardInner.classList.toggle('flipped', isFlipped);
-        });
-
-        // Navigation Handlers
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateDisplay();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            if (currentIndex < students.length - 1) {
-                currentIndex++;
-                updateDisplay();
-            }
-        });
-
-        resetCardBtn.addEventListener('click', () => {
-            isFlipped = false;
-            cardInner.classList.remove('flipped');
         });
 
         // Keyboard Controls (Arrow navigation & Ctrl+L modal shortcut)
@@ -335,7 +272,6 @@
         });
 
         // Modal Management
-        openInputBtn.addEventListener('click', toggleModal);
         closeModalBtn.addEventListener('click', () => inputModal.classList.add('hidden'));
 
         saveListBtn.addEventListener('click', () => {
