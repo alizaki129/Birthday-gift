@@ -1,78 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Noor Zahra 🎉</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SundarSTEM House Student Presenter</title>
+    <!-- Tailwind CSS for sleek styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* House Color Profiles */
+        .house-tipu {
+            --bg-primary: #eab308;
+            --bg-secondary: #ca8a04;
+            --text-color: #ffffff;
+            --accent-glow: rgba(234, 179, 8, 0.4);
+            --card-border: #fef08a;
+        }
+        .house-jinnah {
+            --bg-primary: #006400;
+            --bg-secondary: #004d00;
+            --text-color: #ffffff;
+            --accent-glow: rgba(0, 100, 0, 0.4);
+            --card-border: #4ade80;
+        }
+        .house-sirsyed {
+            --bg-primary: #8017bd;
+            --bg-secondary: #5b0f8b;
+            --text-color: #ffffff;
+            --accent-glow: rgba(128, 23, 189, 0.4);
+            --card-border: #c084fc;
+        }
+        .house-iqbal {
+            --bg-primary: #0000cd;
+            --bg-secondary: #000099;
+            --text-color: #ffffff;
+            --accent-glow: rgba(0, 0, 205, 0.4);
+            --card-border: #60a5fa;
+        }
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        /* Dynamic Theme Background */
+        body {
+            transition: background 0.7s ease-in-out;
+        }
 
-  <style>
-    body {
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    }
-  </style>
+        /* Card Flip & Reveal Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Glassmorphism Details */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid var(--card-border, rgba(255,255,255,0.3));
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .pulse-glow {
+            box-shadow: 0 0 35px var(--accent-glow, rgba(255,255,255,0.2));
+        }
+    </style>
 </head>
+<body class="house-tipu min-h-screen flex flex-col items-center justify-between p-4 md:p-8 font-sans overflow-hidden select-none bg-slate-950 text-white">
 
-<body class="min-h-screen flex items-center justify-center px-4">
-  <div class="bg-white shadow-2xl rounded-2xl p-6 sm:p-8 max-w-md w-full text-center">
-
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-pink-500 mb-4">
-      🎂 Happy Birthday Noor Zahra! 🎂
-    </h1>
-
-    <p class="text-base sm:text-lg text-gray-700 mb-6">
-      Dear Noor Zahra, may your birthday be filled with endless joy, love,
-      laughter, and beautiful memories. Wishing you success, happiness,
-      and all the wonderful things life has to offer. 💖
-    </p>
-
-    <div class="text-5xl sm:text-6xl mb-6">
-      🎉🎈🎁✨
+    <!-- Ambient Dynamic Background -->
+    <div id="dynamic-bg" class="fixed inset-0 -z-10 transition-all duration-700 ease-in-out opacity-90"
+         style="background: radial-gradient(circle at center, var(--bg-primary) 0%, var(--bg-secondary) 70%, #050510 100%);">
     </div>
 
-    <p class="text-gray-600 italic text-sm sm:text-base">
-      "May your smile shine brighter than the candles on your cake!"
-    </p>
+    <!-- Header / Brand Bar -->
+    <header class="w-full max-w-5xl flex justify-between items-center z-10 bg-black/30 backdrop-blur-md px-6 py-3 rounded-3xl border border-white/10">
+        <div class="flex items-center space-x-3">
+            <i data-lucide="award" class="w-7 h-7 text-yellow-400"></i>
+            <div class="flex flex-col leading-tight">
+                <span class="text-xs font-semibold tracking-widest uppercase opacity-80">Department of</span>
+                <span class="font-black text-base md:text-lg tracking-wider uppercase text-yellow-300">Humanities</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button id="open-input-btn" class="flex items-center space-x-1 text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition border border-white/20" title="Shortcut: Ctrl + L">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Manage List</span>
+            </button>
+        </div>
+    </header>
 
-    <button
-      onclick="celebrate()"
-      class="mt-6 px-6 py-3 bg-pink-500 text-white rounded-xl shadow hover:bg-pink-600 transition w-full sm:w-auto"
-    >
-      Click for a Surprise 🎊
-    </button>
+    <!-- Main Presentation Area -->
+    <main class="w-full max-w-xl flex-1 flex flex-col items-center justify-center my-6 z-10">
+        
+        <!-- House Badge -->
+        <div id="house-badge" class="mb-6 px-6 py-2 rounded-full font-black text-xl tracking-widest uppercase shadow-lg border border-white/30 transition-all duration-500 bg-white/10 backdrop-blur-md">
+            Tipu House
+        </div>
 
-    <p id="surprise"
-      class="mt-4 text-lg sm:text-xl font-semibold text-purple-600 hidden">
-      Noor Zahra, you are truly special! Have the most amazing birthday ever! 💕
-    </p>
-  </div>
+        <!-- Interactive 3D Card -->
+        <div class="w-full h-80 sm:h-96 perspective-1000 cursor-pointer group" id="card-container">
+            <div id="card-inner" class="card-inner">
+                
+                <!-- Front Side (Hidden State) -->
+                <div class="card-front glass-card flex flex-col items-center justify-center p-8 text-center pulse-glow">
+                    <div class="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/20">
+                        <i data-lucide="sparkles" class="w-10 h-10 text-white animate-pulse"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold tracking-wider uppercase mb-2">Participant Speaker</h3>
+                    <p class="text-sm opacity-80 flex items-center justify-center gap-1">
+                        <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Click card to reveal participant
+                    </p>
+                </div>
 
-  <script>
-    function celebrate() {
-      document.getElementById('surprise').classList.remove('hidden');
+                <!-- Back Side (Revealed State) -->
+                <div class="card-back glass-card flex flex-col items-center justify-center p-8 text-center pulse-glow">
+                    <h2 id="student-name" class="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4 drop-shadow-md">
+                        Student Name
+                    </h2>
+                    <div class="w-16 h-1 bg-white/40 rounded-full mb-4"></div>
+                    <span class="text-xs opacity-90 uppercase tracking-widest italic font-bold">Speech Competition Contestant</span>
+                </div>
 
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+            </div>
+        </div>
 
-      setTimeout(() => {
-        confetti({
-          particleCount: 100,
-          spread: 120,
-          origin: { x: 0.1 }
+        <!-- Progress Counter -->
+        <div class="mt-6 text-sm font-medium tracking-wide opacity-80 bg-black/20 px-4 py-1.5 rounded-full border border-white/10">
+            Student <span id="current-index">1</span> of <span id="total-count">1</span>
+        </div>
+
+    </main>
+
+    <!-- Navigation Controls -->
+    <footer class="w-full max-w-md flex items-center justify-between z-10 gap-4 mb-2">
+        <button id="prev-btn" class="flex-1 flex items-center justify-center space-x-2 bg-black/40 hover:bg-black/60 active:scale-95 text-white py-3 px-6 rounded-2xl border border-white/10 backdrop-blur-md transition-all disabled:opacity-30 disabled:pointer-events-none">
+            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            <span class="font-semibold">Previous</span>
+        </button>
+
+        <button id="reset-card-btn" title="Hide/Reset Card" class="bg-black/40 hover:bg-black/60 active:scale-95 text-white p-3 rounded-2xl border border-white/10 backdrop-blur-md transition-all">
+            <i data-lucide="rotate-ccw" class="w-6 h-6"></i>
+        </button>
+
+        <button id="next-btn" class="flex-1 flex items-center justify-center space-x-2 bg-black/40 hover:bg-black/60 active:scale-95 text-white py-3 px-6 rounded-2xl border border-white/10 backdrop-blur-md transition-all disabled:opacity-30 disabled:pointer-events-none">
+            <span class="font-semibold">Next</span>
+            <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+    </footer>
+
+    <!-- Input Modal for Customizing Student List -->
+    <div id="input-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-3xl p-6 shadow-2xl text-slate-100 flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <i data-lucide="users" class="w-5 h-5 text-yellow-400"></i> Edit Student List & Houses
+                </h3>
+                <button id="close-modal-btn" class="text-slate-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-slate-400 mb-3">
+                Enter one student per line in this format: <code class="bg-slate-800 text-yellow-300 px-1.5 py-0.5 rounded">Name - House</code><br>
+                Valid Houses: <b>Tipu</b>, <b>Jinnah</b>, <b>Sir Syed</b>, <b>Iqbal</b>. <br>
+                <span class="text-slate-500 font-mono">(Tip: Press Ctrl + L to toggle this window anytime)</span>
+            </p>
+
+            <textarea id="student-list-input" class="w-full flex-1 min-h-[220px] bg-slate-950 border border-slate-700 rounded-xl p-4 font-mono text-sm focus:outline-none focus:border-blue-500 text-slate-200" placeholder="Ali Khan - Tipu&#10;Usman Ahmed - Jinnah&#10;Bilal Hussain - Sir Syed&#10;Hamza Raza - Iqbal"></textarea>
+
+            <div class="flex justify-end space-x-3 mt-4">
+                <button id="save-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-xl font-semibold transition flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i> Save & Reload
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Default list of students with assigned houses
+        let students = [
+            { name: "Ahmed Ali", house: "Tipu" },
+            { name: "Muhammad Usman", house: "Jinnah" },
+            { name: "Hamza Tariq", house: "Sir Syed" },
+            { name: "Zaid Omar", house: "Iqbal" },
+            { name: "Bilal Hassan", house: "Tipu" }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // House Mapping details
+        const houseStyles = {
+            "tipu": { name: "Tipu House", class: "house-tipu" },
+            "jinnah": { name: "Jinnah House", class: "house-jinnah" },
+            "sirsyed": { name: "Sir Syed House", class: "house-sirsyed" },
+            "iqbal": { name: "Iqbal House", class: "house-iqbal" }
+        };
+
+        // DOM Elements
+        const cardContainer = document.getElementById('card-container');
+        const cardInner = document.getElementById('card-inner');
+        const studentNameElem = document.getElementById('student-name');
+        const houseBadgeElem = document.getElementById('house-badge');
+        const currentIndexElem = document.getElementById('current-index');
+        const totalCountElem = document.getElementById('total-count');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const resetCardBtn = document.getElementById('reset-card-btn');
+        const inputModal = document.getElementById('input-modal');
+        const openInputBtn = document.getElementById('open-input-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const saveListBtn = document.getElementById('save-list-btn');
+        const studentListInput = document.getElementById('student-list-input');
+
+        // Normalize house keys
+        function getHouseKey(houseName) {
+            const clean = houseName.toLowerCase().replace(/[^a-z]/g, '');
+            if (clean.includes('tipu')) return 'tipu';
+            if (clean.includes('jinnah')) return 'jinnah';
+            if (clean.includes('sirsyed') || clean.includes('syed')) return 'sirsyed';
+            if (clean.includes('iqbal')) return 'iqbal';
+            return 'tipu'; // Default fallback
+        }
+
+        // Toggle Modal Function
+        function toggleModal() {
+            if (inputModal.classList.contains('hidden')) {
+                studentListInput.value = students.map(s => `${s.name} - ${s.house}`).join('\n');
+                inputModal.classList.remove('hidden');
+            } else {
+                inputModal.classList.add('hidden');
+            }
+        }
+
+        // Update Display to match Current Student Index
+        function updateDisplay() {
+            if (students.length === 0) return;
+
+            const current = students[currentIndex];
+            const houseKey = getHouseKey(current.house);
+            const houseConfig = houseStyles[houseKey];
+
+            // Reset Card reveal on change
+            isFlipped = false;
+            cardInner.classList.remove('flipped');
+
+            // Apply body house theme
+            document.body.className = `${houseConfig.class} min-h-screen flex flex-col items-center justify-between p-4 md:p-8 font-sans overflow-hidden select-none bg-slate-950 text-white`;
+
+            // Update text contents
+            studentNameElem.textContent = current.name;
+            houseBadgeElem.textContent = houseConfig.name;
+
+            // Update counters
+            currentIndexElem.textContent = currentIndex + 1;
+            totalCountElem.textContent = students.length;
+
+            // Update button states
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === students.length - 1;
+        }
+
+        // Card Flip Event
+        cardContainer.addEventListener('click', () => {
+            isFlipped = !isFlipped;
+            cardInner.classList.toggle('flipped', isFlipped);
         });
 
-        confetti({
-          particleCount: 100,
-          spread: 120,
-          origin: { x: 0.9 }
+        // Navigation Handlers
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateDisplay();
+            }
         });
-      }, 300);
-    }
-  </script>
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < students.length - 1) {
+                currentIndex++;
+                updateDisplay();
+            }
+        });
+
+        resetCardBtn.addEventListener('click', () => {
+            isFlipped = false;
+            cardInner.classList.remove('flipped');
+        });
+
+        // Keyboard Controls (Arrow navigation & Ctrl+L modal shortcut)
+        document.addEventListener('keydown', (e) => {
+            // Shortcut: Ctrl + L (or Cmd + L) toggles the Manage List modal
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+                e.preventDefault();
+                toggleModal();
+                return;
+            }
+
+            if (inputModal.classList.contains('hidden')) {
+                if (e.key === 'ArrowRight') {
+                    if (currentIndex < students.length - 1) {
+                        currentIndex++;
+                        updateDisplay();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateDisplay();
+                    }
+                } else if (e.key === ' ' || e.key === 'Enter') {
+                    isFlipped = !isFlipped;
+                    cardInner.classList.toggle('flipped', isFlipped);
+                }
+            }
+        });
+
+        // Modal Management
+        openInputBtn.addEventListener('click', toggleModal);
+        closeModalBtn.addEventListener('click', () => inputModal.classList.add('hidden'));
+
+        saveListBtn.addEventListener('click', () => {
+            const lines = studentListInput.value.split('\n');
+            const newStudents = [];
+
+            lines.forEach(line => {
+                const parts = line.split('-');
+                if (parts.length >= 2) {
+                    const name = parts[0].trim();
+                    const house = parts[1].trim();
+                    if (name && house) {
+                        newStudents.push({ name, house });
+                    }
+                }
+            });
+
+            if (newStudents.length > 0) {
+                students = newStudents;
+                currentIndex = 0;
+                updateDisplay();
+                inputModal.classList.add('hidden');
+            } else {
+                alert('Please provide student names in the valid format: Name - House');
+            }
+        });
+
+        // Initialize Lucide Icons & App
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            updateDisplay();
+        });
+    </script>
 </body>
 </html>
